@@ -1,334 +1,240 @@
-import { useEffect } from 'react';
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 
 function App() {
-  useEffect(() => {
-    // Intersection Observer for scroll animations
-    const revealElements = document.querySelectorAll('.reveal');
-
-    const revealOptions = {
-      threshold: 0.15,
-      rootMargin: "0px 0px -50px 0px"
-    };
-
-    const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, revealOptions);
-
-    revealElements.forEach(el => {
-      revealOnScroll.observe(el);
-    });
-
-    // Dynamic Blob Follower
-    const blob = document.getElementById("blob");
-    const handlePointerMove = (event) => { 
-      if (blob) {
-        const { clientX, clientY } = event;
-        blob.animate({
-          left: `${clientX}px`,
-          top: `${clientY + window.scrollY}px`
-        }, { duration: 3000, fill: "forwards" });
-      }
-    };
-    
-    document.body.addEventListener("pointermove", handlePointerMove);
-
-    // Navbar scroll effect
-    const nav = document.querySelector('nav');
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        nav?.classList.add('scrolled');
-      } else {
-        nav?.classList.remove('scrolled');
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      revealElements.forEach(el => revealOnScroll.unobserve(el));
-      document.body.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   return (
-    <>
-      <div id="blob"></div>
+    <div className="min-h-screen bg-background text-foreground font-sans antialiased">
+      {/* Navigation */}
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 items-center px-4 md:px-8 max-w-6xl mx-auto">
+          <div className="font-bold text-lg mr-4">Laxmiish Shukla</div>
+          <nav className="flex items-center space-x-6 text-sm font-medium ml-auto">
+            <a href="#about" className="transition-colors hover:text-foreground/80 text-foreground/60">About</a>
+            <a href="#skills" className="transition-colors hover:text-foreground/80 text-foreground/60">Skills</a>
+            <a href="#experience" className="transition-colors hover:text-foreground/80 text-foreground/60">Experience</a>
+            <a href="#projects" className="transition-colors hover:text-foreground/80 text-foreground/60">Projects</a>
+          </nav>
+        </div>
+      </header>
 
-      <nav>
-          <div className="logo">Laxmiish<span className="gradient-text">.</span></div>
-          <ul className="nav-links">
-              <li><a href="#about">About</a></li>
-              <li><a href="#skills">Skills</a></li>
-              <li><a href="#experience">Experience</a></li>
-              <li><a href="#projects">Projects</a></li>
-              <li><a href="#contact">Contact</a></li>
-          </ul>
-      </nav>
-
-      {/* Hero Section */}
-      <section id="hero" className="hero">
-          <div className="container reveal">
-              <div className="hero-content">
-                  <span className="hero-greeting">Hello, I'm Laxmiish Shukla</span>
-                  <h1 className="hero-title">Architecting <span className="gradient-text">Scalable</span> Software & Intelligent Systems.</h1>
-                  <p className="hero-subtitle">Results-driven Software Engineering and Data Science student with a strong foundation in full-stack development, backend architecture, and machine learning.</p>
-                  <div className="cta-buttons">
-                      <a href="#contact" className="btn btn-primary">Get In Touch</a>
-                      <a href="#projects" className="btn btn-outline">View Work</a>
-                  </div>
-              </div>
+      <main className="container px-4 md:px-8 max-w-6xl mx-auto flex-1 py-12 md:py-24 lg:py-32 flex flex-col gap-24">
+        
+        {/* Hero Section */}
+        <section id="hero" className="flex flex-col items-start gap-4 pt-12 md:pt-24 pb-8">
+          <Badge variant="secondary" className="mb-2">Software Engineer & Data Scientist</Badge>
+          <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl">
+            Architecting Scalable Software & Intelligent Systems.
+          </h1>
+          <p className="max-w-[700px] text-lg text-muted-foreground mt-4">
+            Results-driven student with a strong foundation in full-stack development, backend architecture, and machine learning.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 mt-8">
+            <Button size="lg" asChild>
+              <a href="#contact">Get In Touch</a>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <a href="#projects">View Work</a>
+            </Button>
           </div>
-      </section>
+        </section>
 
-      {/* About Section */}
-      <section id="about">
-          <div className="container reveal">
-              <h2 className="section-title">About <span className="gradient-text">Me</span></h2>
-              <div className="timeline">
-                  <div className="timeline-item">
-                      <div className="timeline-dot"></div>
-                      <div className="timeline-content">
-                          <span className="timeline-date">Aug 2024 - Present</span>
-                          <h3 className="timeline-title">Babu Banarsi Das University</h3>
-                          <p className="timeline-subtitle">B.Tech in Computer Science (Artificial Intelligence)</p>
-                          <p>Currently pursuing my B.Tech degree with a focus on cutting-edge AI technologies and software engineering methodologies.</p>
-                      </div>
-                  </div>
-                  
-                  <div className="timeline-item">
-                      <div className="timeline-dot"></div>
-                      <div className="timeline-content">
-                          <span className="timeline-date">Aug 2025 - Jan 2027 (Expected)</span>
-                          <h3 className="timeline-title">IIT Mandi</h3>
-                          <p className="timeline-subtitle">Minor Degree in Data Science</p>
-                          <p>Deepening expertise in data science, predictive analytics, and machine learning algorithms at a premier institute.</p>
-                      </div>
-                  </div>
-              </div>
+        <Separator />
+
+        {/* About Section */}
+        <section id="about" className="flex flex-col gap-8">
+          <h2 className="text-3xl font-bold tracking-tight">Education</h2>
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Babu Banarsi Das University</CardTitle>
+                <CardDescription>Aug 2024 - Present</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="font-medium mb-2">B.Tech in Computer Science (Artificial Intelligence)</p>
+                <p className="text-sm text-muted-foreground">Focus on AI technologies and software engineering methodologies.</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>IIT Mandi</CardTitle>
+                <CardDescription>Aug 2025 - Jan 2027 (Expected)</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="font-medium mb-2">Minor Degree in Data Science</p>
+                <p className="text-sm text-muted-foreground">Predictive analytics, statistical modeling, and ML algorithms.</p>
+              </CardContent>
+            </Card>
           </div>
-      </section>
+        </section>
 
-      {/* Skills Section */}
-      <section id="skills">
-          <div className="container reveal">
-              <h2 className="section-title">Technical <span className="gradient-text">Expertise</span></h2>
-              
-              <div className="skills-container">
-                  <div className="skill-category">
-                      <h3><i className="fas fa-code"></i> Languages</h3>
-                      <div className="skill-tags">
-                          <span className="skill-tag">JavaScript</span>
-                          <span className="skill-tag">Python</span>
-                          <span className="skill-tag">Go</span>
-                          <span className="skill-tag">SQL</span>
-                          <span className="skill-tag">HTML5</span>
-                          <span className="skill-tag">CSS3</span>
-                      </div>
-                  </div>
-                  
-                  <div className="skill-category">
-                      <h3><i className="fas fa-layer-group"></i> Frontend</h3>
-                      <div className="skill-tags">
-                          <span className="skill-tag">React.js</span>
-                          <span className="skill-tag">Next.js</span>
-                          <span className="skill-tag">Tailwind CSS</span>
-                          <span className="skill-tag">Axios</span>
-                          <span className="skill-tag">Responsive Design</span>
-                      </div>
-                  </div>
-                  
-                  <div className="skill-category">
-                      <h3><i className="fas fa-server"></i> Backend & API</h3>
-                      <div className="skill-tags">
-                          <span className="skill-tag">FastAPI</span>
-                          <span className="skill-tag">Gin</span>
-                          <span className="skill-tag">Node.js</span>
-                          <span className="skill-tag">Express</span>
-                          <span className="skill-tag">RESTful APIs</span>
-                          <span className="skill-tag">Microservices</span>
-                      </div>
-                  </div>
-                  
-                  <div className="skill-category">
-                      <h3><i className="fas fa-database"></i> Databases</h3>
-                      <div className="skill-tags">
-                          <span className="skill-tag">PostgreSQL</span>
-                          <span className="skill-tag">MySQL</span>
-                          <span className="skill-tag">MongoDB</span>
-                          <span className="skill-tag">SQLAlchemy</span>
-                      </div>
-                  </div>
+        <Separator />
 
-                  <div className="skill-category">
-                      <h3><i className="fas fa-brain"></i> Data Science & ML</h3>
-                      <div className="skill-tags">
-                          <span className="skill-tag">Pandas</span>
-                          <span className="skill-tag">NumPy</span>
-                          <span className="skill-tag">Scikit-Learn</span>
-                          <span className="skill-tag">Feature Engineering</span>
-                          <span className="skill-tag">Predictive Modeling</span>
-                      </div>
-                  </div>
+        {/* Skills Section */}
+        <section id="skills" className="flex flex-col gap-8">
+          <h2 className="text-3xl font-bold tracking-tight">Technical Expertise</h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Languages</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                <Badge variant="secondary">JavaScript</Badge>
+                <Badge variant="secondary">Python</Badge>
+                <Badge variant="secondary">Go</Badge>
+                <Badge variant="secondary">SQL</Badge>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Frontend</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                <Badge variant="secondary">React.js</Badge>
+                <Badge variant="secondary">Next.js</Badge>
+                <Badge variant="secondary">Tailwind CSS</Badge>
+              </CardContent>
+            </Card>
 
-                  <div className="skill-category">
-                      <h3><i className="fas fa-shield-alt"></i> Tools & Security</h3>
-                      <div className="skill-tags">
-                          <span className="skill-tag">Git</span>
-                          <span className="skill-tag">JWT</span>
-                          <span className="skill-tag">RBAC</span>
-                          <span className="skill-tag">bcrypt</span>
-                          <span className="skill-tag">Postman</span>
-                          <span className="skill-tag">Jupyter Notebook</span>
-                      </div>
-                  </div>
-              </div>
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Backend</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                <Badge variant="secondary">FastAPI</Badge>
+                <Badge variant="secondary">Gin</Badge>
+                <Badge variant="secondary">Node.js</Badge>
+                <Badge variant="secondary">Microservices</Badge>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Data Science & ML</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                <Badge variant="secondary">Pandas</Badge>
+                <Badge variant="secondary">NumPy</Badge>
+                <Badge variant="secondary">Scikit-Learn</Badge>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Databases</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                <Badge variant="secondary">PostgreSQL</Badge>
+                <Badge variant="secondary">MySQL</Badge>
+                <Badge variant="secondary">MongoDB</Badge>
+              </CardContent>
+            </Card>
+
           </div>
-      </section>
+        </section>
 
-      {/* Experience Section */}
-      <section id="experience">
-          <div className="container reveal">
-              <h2 className="section-title">Professional <span className="gradient-text">Experience</span></h2>
-              <div className="timeline">
-                  
-                  <div className="timeline-item">
-                      <div className="timeline-dot"></div>
-                      <div className="timeline-content">
-                          <h3 className="timeline-title">Backend & Systems Engineer</h3>
-                          <p className="timeline-subtitle">Suraksha Grid | Gov-tech Platform</p>
-                          <p style={{color: 'var(--text-secondary)', marginBottom: '1rem', fontSize: '0.95rem'}}>
-                              Developed a highly scalable Gov-tech platform designed to facilitate BOCW benefits distribution for over 60 million unorganized workers. Engineered robust backend microservices utilizing Go and Gin, integrating background CRON jobs and secure E-KYC verification protocols. Built a responsive and secure frontend leveraging React.js and Tailwind CSS.
-                          </p>
-                      </div>
-                  </div>
+        <Separator />
 
-                  <div className="timeline-item">
-                      <div className="timeline-dot"></div>
-                      <div className="timeline-content">
-                          <h3 className="timeline-title">Data Science Researcher</h3>
-                          <p className="timeline-subtitle">Data Analytics & Model Evaluation (IIT Mandi Lab)</p>
-                          <p style={{color: 'var(--text-secondary)', fontSize: '0.95rem'}}>
-                              Implemented end-to-end machine learning workflows, optimizing data preparation and training/testing splits to ensure precise model evaluation. Executed advanced statistical analysis and feature engineering on complex structured datasets utilizing Python, Pandas, and Scikit-Learn.
-                          </p>
-                      </div>
-                  </div>
+        {/* Experience Section */}
+        <section id="experience" className="flex flex-col gap-8">
+          <h2 className="text-3xl font-bold tracking-tight">Professional Experience</h2>
+          <div className="flex flex-col gap-8">
+            
+            <div className="flex flex-col gap-2">
+              <h3 className="text-xl font-semibold">Backend & Systems Engineer</h3>
+              <p className="text-sm font-medium text-muted-foreground">Suraksha Grid | Gov-tech Platform</p>
+              <p className="text-sm text-foreground/80 mt-2 leading-relaxed max-w-3xl">
+                Developed a highly scalable Gov-tech platform for BOCW benefits distribution serving over 60 million workers. Engineered Go and Gin microservices, integrated background CRON jobs, and built secure E-KYC verification protocols.
+              </p>
+            </div>
 
-                  <div className="timeline-item">
-                      <div className="timeline-dot"></div>
-                      <div className="timeline-content">
-                          <h3 className="timeline-title">Finance Volunteer</h3>
-                          <p className="timeline-subtitle">National Service Scheme (NSS), BBDU | May 2025 - Present</p>
-                          <p style={{color: 'var(--text-secondary)', fontSize: '0.95rem'}}>
-                              Streamlined operational workflows and financial planning for university-wide community service initiatives.
-                          </p>
-                      </div>
-                  </div>
-              </div>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-xl font-semibold">Data Science Researcher</h3>
+              <p className="text-sm font-medium text-muted-foreground">Data Analytics & Model Evaluation (IIT Mandi Lab)</p>
+              <p className="text-sm text-foreground/80 mt-2 leading-relaxed max-w-3xl">
+                Implemented end-to-end ML workflows, optimized training/testing splits, and executed advanced statistical analysis and feature engineering on complex structured datasets.
+              </p>
+            </div>
+
           </div>
-      </section>
+        </section>
 
-      {/* Projects Section */}
-      <section id="projects">
-          <div className="container reveal">
-              <h2 className="section-title">Featured <span className="gradient-text">Projects</span></h2>
-              
-              <div className="projects-grid">
-                  
-                  <div className="project-card">
-                      <div className="project-header">
-                          <h3 className="project-title">TransitOps</h3>
-                          <span className="project-role">Hackathon Finalist</span>
-                      </div>
-                      <p className="timeline-subtitle" style={{marginBottom: '1rem'}}>Smart Transport Operations Platform</p>
-                      <div className="project-desc">
-                          <ul>
-                              <li>Architected a comprehensive platform managing fleets, drivers, and trips using React.js, FastAPI, and PostgreSQL.</li>
-                              <li>Engineered resilient frontend with offline mock data fallback for zero-downtime workflows.</li>
-                              <li>Designed scalable RESTful APIs with RBAC and interactive Recharts KPI dashboards.</li>
-                          </ul>
-                      </div>
-                      <div style={{display: 'flex', gap: '1rem'}}>
-                          <span className="skill-tag">React.js</span>
-                          <span className="skill-tag">FastAPI</span>
-                          <span className="skill-tag">PostgreSQL</span>
-                      </div>
-                  </div>
+        <Separator />
 
-                  <div className="project-card">
-                      <div className="project-header">
-                          <h3 className="project-title">HabitOS</h3>
-                          <span className="project-role">Full-Stack Dev</span>
-                      </div>
-                      <p className="timeline-subtitle" style={{marginBottom: '1rem'}}>Minimalist Habit Tracker Application</p>
-                      <div className="project-desc">
-                          <ul>
-                              <li>Created responsive Next.js and React web application for efficiently logging and visualizing daily routines.</li>
-                              <li>Designed backend REST APIs with FastAPI and MySQL to ensure secure data management and real-time analytics.</li>
-                          </ul>
-                      </div>
-                      <br/><br/>
-                      <div style={{display: 'flex', gap: '1rem'}}>
-                          <span className="skill-tag">Next.js</span>
-                          <span className="skill-tag">FastAPI</span>
-                          <span className="skill-tag">MySQL</span>
-                      </div>
-                  </div>
+        {/* Projects Section */}
+        <section id="projects" className="flex flex-col gap-8">
+          <h2 className="text-3xl font-bold tracking-tight">Featured Projects</h2>
+          <div className="grid gap-6 md:grid-cols-2">
+            
+            <Card className="flex flex-col">
+              <CardHeader>
+                <div className="flex justify-between items-start gap-4">
+                  <CardTitle>TransitOps</CardTitle>
+                  <Badge>Hackathon Finalist</Badge>
+                </div>
+                <CardDescription>Smart Transport Operations Platform</CardDescription>
+              </CardHeader>
+              <CardContent className="flex-1">
+                <ul className="list-disc pl-4 text-sm text-muted-foreground flex flex-col gap-2">
+                  <li>Architected a comprehensive platform managing fleets, drivers, and trips using React.js, FastAPI, and PostgreSQL.</li>
+                  <li>Engineered resilient frontend with offline mock data fallback.</li>
+                  <li>Designed scalable RESTful APIs with RBAC and interactive KPI dashboards.</li>
+                </ul>
+              </CardContent>
+              <CardFooter className="flex gap-2 flex-wrap pt-4">
+                <Badge variant="outline">React.js</Badge>
+                <Badge variant="outline">FastAPI</Badge>
+                <Badge variant="outline">PostgreSQL</Badge>
+              </CardFooter>
+            </Card>
 
-                  <div className="project-card">
-                      <div className="project-header">
-                          <h3 className="project-title">Attendance System</h3>
-                          <span className="project-role">Software Developer</span>
-                      </div>
-                      <p className="timeline-subtitle" style={{marginBottom: '1rem'}}>MERN-Stack Tracking System</p>
-                      <div className="project-desc">
-                          <ul>
-                              <li>Built comprehensive attendance tracking system enabling real-time database updates and reporting.</li>
-                              <li>Implemented secure user authentication and role-based access controls for dedicated student and faculty portals.</li>
-                          </ul>
-                      </div>
-                      <br/><br/>
-                      <div style={{display: 'flex', gap: '1rem'}}>
-                          <span className="skill-tag">MongoDB</span>
-                          <span className="skill-tag">Express</span>
-                          <span className="skill-tag">React.js</span>
-                          <span className="skill-tag">Node.js</span>
-                      </div>
-                  </div>
-                  
-              </div>
-              
-              <div style={{marginTop: '4rem', textAlign: 'center'}}>
-                  <h3 className="timeline-title">Algorithms & Problem Solving</h3>
-                  <p style={{color: 'var(--text-secondary)', maxWidth: '800px', margin: '1rem auto', lineHeight: '1.6'}}>
-                      <strong>LeetCode Achievements:</strong> Solved 140+ algorithmic challenges, demonstrating advanced proficiency in Dynamic Programming, Graph Theory (DFS/BFS), and Complex Data Structures (Segment Trees, Tries, Union-Find).
-                  </p>
-              </div>
+            <Card className="flex flex-col">
+              <CardHeader>
+                <div className="flex justify-between items-start gap-4">
+                  <CardTitle>HabitOS</CardTitle>
+                  <Badge variant="secondary">Full-Stack</Badge>
+                </div>
+                <CardDescription>Minimalist Habit Tracker Application</CardDescription>
+              </CardHeader>
+              <CardContent className="flex-1">
+                <ul className="list-disc pl-4 text-sm text-muted-foreground flex flex-col gap-2">
+                  <li>Created responsive Next.js web application for efficiently logging and visualizing daily routines.</li>
+                  <li>Designed backend REST APIs with FastAPI and MySQL to ensure secure data management.</li>
+                </ul>
+              </CardContent>
+              <CardFooter className="flex gap-2 flex-wrap pt-4">
+                <Badge variant="outline">Next.js</Badge>
+                <Badge variant="outline">FastAPI</Badge>
+                <Badge variant="outline">MySQL</Badge>
+              </CardFooter>
+            </Card>
+
           </div>
-      </section>
+        </section>
 
-      {/* Footer / Contact Section */}
-      <footer id="contact">
-          <div className="container reveal">
-              <h2 className="section-title">Let's <span className="gradient-text">Connect</span></h2>
-              <div className="contact-content">
-                  <p>I'm always open to discussing software engineering roles, data science opportunities, and innovative projects. Feel free to reach out!</p>
-                  
-                  <div className="social-links">
-                      <a href="mailto:laxmiishshukla@gmail.com" className="social-icon" title="Email"><i className="fas fa-envelope"></i></a>
-                      <a href="https://linkedin.com/in/laxmiish-shukla" target="_blank" rel="noopener noreferrer" className="social-icon" title="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-                      <a href="tel:+918081117512" className="social-icon" title="Phone"><i className="fas fa-phone"></i></a>
-                  </div>
-                  
-                  <p className="copyright">&copy; 2026 Laxmiish Shukla. All rights reserved.</p>
-              </div>
+      </main>
+
+      {/* Footer */}
+      <footer id="contact" className="border-t bg-muted/20">
+        <div className="container px-4 md:px-8 max-w-6xl mx-auto py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col gap-2 text-center md:text-left">
+            <h2 className="text-xl font-bold">Let's Connect</h2>
+            <p className="text-sm text-muted-foreground">Always open to discussing software engineering and data science roles.</p>
           </div>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" asChild>
+              <a href="mailto:laxmiishshukla@gmail.com" aria-label="Send email to Laxmiish" title="Email Laxmiish">Email</a>
+            </Button>
+            <Button variant="outline" asChild>
+              <a href="https://linkedin.com/in/laxmiish-shukla" target="_blank" rel="noreferrer" aria-label="Visit Laxmiish's LinkedIn profile" title="LinkedIn Profile">LinkedIn</a>
+            </Button>
+          </div>
+        </div>
       </footer>
-    </>
+    </div>
   )
 }
 
